@@ -44,14 +44,13 @@ A WordPress theme development framework that comes built with various helper met
 
 ## Install
 
-1. Download the latest version from [releases](https://github.com/digital-baboon/framework/releases).
+1. Download the latest version from [releases](https://github.com/askosh/framework/releases).
 2. Upload the `.zip` file in your `WordPress Admin > Plugins > Add New > Upload` page.
 3. All good. You can now access all of the Framework PHP and JS methods.
 
-**Note:** This plugin works with WordPress 5.3.2 and up.
+**Note:** This plugin works with WordPress 5.3.2, PHP 7.4 and up.
 
-Oh and our own site is built with this, so if you want to take a look at how we use this framework, check out [the WordPress theme](https://github.com/digital-baboon/baboontheme) we've made with it. 
-Additionally there is also the [Boilerplate](https://github.com/digital-baboon/boilerplate) if you wish to kickstart your theme development using Framework.
+Additionally there is also the [Boilerplate](https://github.com/askosh/boilerplate) if you wish to kickstart your theme development using Framework.
 
 ## Using Framework in PHP
 
