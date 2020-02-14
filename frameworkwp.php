@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Plugin Name: Framework
+ * Plugin URI: https://digitalbaboon.com/framework
+ * Description: Making WordPress theme development less of a bother.
+ * Version: 2.5
+ * Author: Digital Baboon LLC
+ * Author URI: https://digitalbaboon.com
+ * License: MIT
+ */
+
+require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/framework.php';
