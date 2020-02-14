@@ -102,7 +102,7 @@ class Framework
 	{
 		if(!empty($_REQUEST[$key])) {
 
-			return $_REQUEST[$key];
+			return htmlspecialchars($_REQUEST[$key]);
 
 		}
 
