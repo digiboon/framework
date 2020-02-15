@@ -8,6 +8,8 @@
  * @link https://digitalbaboon.com/framework
  */
 
+declare(strict_types=1);
+
 class Framework
 {
 	private array $templatePartials = [];
@@ -96,9 +98,9 @@ class Framework
 	 *
 	 * @param string $key
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function input(string $key): string
+	public function input(string $key): ?string
 	{
 		if(!empty($_REQUEST[$key])) {
 
@@ -106,7 +108,7 @@ class Framework
 
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -1015,7 +1017,7 @@ class Framework
 
 		}
 
-		if (is_dir($tmpDir)) {
+		if ($tmpDir && is_dir($tmpDir)) {
 
 			$fn = tempnam($tmpDir, 'lci_');
 
