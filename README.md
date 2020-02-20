@@ -114,23 +114,22 @@ $app->style('style-id', 'uri-to-style.css');
 
 #### Sending an e-mail
 
-You can send an email via the `sendMessage` method, a fully configured example is:
+You can send an email via the `sendEmail` method, a fully configured example is:
 
 ```php
-$app->sendMessage([
+$app->sendEmail('contact', [
   'to' => 'asko@digitalbaboon.com',
   'subject' => 'Contact Form | Digital Baboon',
-  'body' => '<ul><li>Name: {name}</li><li>E-mail: {email}</li><li>Company: {companyName}</li></ul><p>{message}</p>',
-  'data' => [
-    'name' => 'John Smith',
-    'email' => 'john@smith.com',
-    'companyName' => 'John Smith & Partners',
-    'message' => 'Hi there!'
-  ]
+  'name' => 'John Smith',
+  'email' => 'john@smith.com',
+  'companyName' => 'John Smith & Partners',
+  'message' => 'Hi there!'
 ]);
 ```
 
-As you can see, anything within curly brackets is the key of an item passed in `data`. For example, if your `body` has a string like `'Hi {name}!'`, then to replace the `{name}` part with an actual thing, simply pass `'name' => 'John Smith'` to `data`. The rest of the configuration should be pretty self-explanatory.
+The first argument is the template file name located in `templates/emails/{filename}.hbs` and the second argument is the 
+data passed to the template. **Note:** the `to` and `subject` data keys are mandatory for the email sending to actually work, so you always
+need to pass those.
 
 #### Creating AJAX actions
 
@@ -515,6 +514,18 @@ There are currently these variables available for use:
 - `body_class` - prints the `body_class()`
 - `language_attributes` - prints the `language_attributes()`
 
+#### Setting global template data
+
+You can set global template data for use within all templates via the `setTemplateData` method, like so:
+
+```php
+$app->setTemplateData([
+  'name' = 'John'
+]);
+```
+
+Based on this example you can now use the `name` variable in all the templates you use. This can greatly 
+reduce duplicated code.
 
 #### Querying content
 
