@@ -36,6 +36,7 @@ A WordPress theme development framework that comes built with various helper met
     - [Partials](#partials)
     - [Helpers](#helpers)
     - [Variables](#variables)
+    - [Setting global template data](#setting-global-template-data)
     - [Querying content](#querying-content)
   - [Extending](#extending)
 - [Using Framework in JavaScript](#using-framework-in-javascript)
