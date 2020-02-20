@@ -14,6 +14,7 @@ class Framework
 {
 	private array $templatePartials = [];
 	private array $templateHelpers = [];
+	private array $templateData = [];
 
 	/**
 	 * E-mail sending helper.
@@ -22,36 +23,25 @@ class Framework
 	 * occurrences of {key} with a key-value set in `data`.
 	 * and sends an email to `to' with a subject from `subject`.
 	 *
+	 * @param string $template
 	 * @param array $data Configuration.
 	 *
 	 * @return void
 	 */
-	public function sendMessage(array $data): void
+	public function sendEmail(string $template, array $data): void
 	{
+		if(empty($data['to']) || empty($data['subject'])) return;
+
 		// Get to
 		$to = $data['to'];
 
 		// Get subject
 		$subject = $data['subject'];
 
-		// Get body
-		$body = $data['body'];
-
 		// Set headers
 		$headers = ['Content-Type: text/html; charset=UTF-8'];
 
-		// Parse body and set data
-		if (!empty($data['data']) && is_array($data['data'])) {
-
-			foreach ($data['data'] as $key => $value) {
-
-				$body = str_replace('{' . $key . '}', $value, $body);
-
-			}
-
-		}
-
-		wp_mail($to, $subject, $body, $headers);
+		wp_mail($to, $subject, $this->emailTemplate($template, $data), $headers);
 	}
 
 	/**
@@ -799,6 +789,16 @@ class Framework
 	}
 
 	/**
+	 * Sets template data for use within all templates.
+	 *
+	 * @param array $data
+	 */
+	public function setTemplateData(array $data = []): void
+	{
+		$this->templateData = $data;
+	}
+
+	/**
 	 * Get template partials.
 	 *
 	 * Get all template partials.
@@ -1069,6 +1069,7 @@ class Framework
 			$template = file_get_contents(get_template_directory() . '/templates/' . $name . '.hbs');
 
 			$phpStr = LightnCandy\LightnCandy::compile($template, [
+				'flags' => LightnCandy\LightnCandy::FLAG_ERROR_EXCEPTION,
 				'partials' => $this->getTemplatePartials(),
 				'helpers' => $this->getTemplateHelpers(),
 			]);
@@ -1077,7 +1078,37 @@ class Framework
 
 			if ($renderer instanceof Closure) {
 
-				echo $renderer(array_merge($data, $this->getTemplateDefaultData()));
+				echo $renderer(array_merge($data, $this->getTemplateDefaultData(), $this->templateData));
+
+			}
+
+			die();
+
+		}
+	}
+
+	/**
+	 * Returns the template code for an email.
+	 *
+	 * @param string $name
+	 * @param array $data
+	 *
+	 * @return callable
+	 */
+	public function emailTemplate(string $name, array $data = []): string
+	{
+		if (file_exists(get_template_directory() . '/templates/emails/' . $name . '.hbs')) {
+
+			$template = file_get_contents(get_template_directory() . '/templates/emails/' . $name . '.hbs');
+			$phpStr = LightnCandy\LightnCandy::compile($template, [
+				'flags' => LightnCandy\LightnCandy::FLAG_ERROR_EXCEPTION
+			]);
+
+			$renderer = $this->prepareTemplate($phpStr);
+
+			if ($renderer instanceof Closure) {
+
+				return $renderer(array_merge($data, $this->templateData));
 
 			}
 

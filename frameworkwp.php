@@ -10,5 +10,9 @@
  * License: MIT
  */
 
-require __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/framework.php';
+if(!version_compare(PHP_VERSION, '7.4.0', '<')) {
+
+	require __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/framework.php';
+
+}
